@@ -4,6 +4,7 @@ Terraform Enterprise (TFE) Glossary
 ## API
 
 [api]: glossary.html#api
+[apis]: glossary.html#api
 
 "Application Programming Interface". Any interface designed to allow programatic manipulation of some kind of software system. For most software developers today, the most common kinds of APIs are based on HTTP requests.
 
@@ -16,7 +17,8 @@ Terraform Enterprise also offers its own API, for managing resources like team m
 
 ## Apply (noun)
 
-[apply (noun)]: glossary.html#apply-noun
+[apply]: glossary.html#apply-noun
+[applies]: glossary.html#apply-noun
 
 One of the stages of a [run][], in which changes are made to real infrastructure resources in order to make them match their desired state. The counterpart of a [plan][].
 
@@ -27,7 +29,7 @@ In Terraform's CLI, applies are performed with the `terraform apply` command. TF
 
 ## Apply (verb)
 
-[apply (verb)]: glossary.html#apply-verb
+[apply-v]: glossary.html#apply-verb
 
 To make changes to real infrastructure in order to make it match the desired state (as specified by a Terraform [config][] and set of [variables][]).
 
@@ -36,9 +38,32 @@ In conversation, it's common to refer to "applying a [plan][]" (usually in the c
 - [Terraform docs: The `terraform apply` command](/docs/commands/apply.html)
 - [TFE docs: About Runs](/docs/enterprise/run/index.html)
 
+## Argument
+
+[argument]: glossary.html#argument
+[arguments]: glossary.html#argument
+
+In Terraform's [configuration][] language: a syntax construct that assigns a value to a name. Arguments have the form `<IDENTIFIER> = <EXPRESSION>`, and they appear within blocks.
+
+Most of a Terraform configuration consists of using arguments to configure Terraform [resources][]. Each resource type defines the arguments its resources can use, the allowed values for each argument, and which arguments are required or optional. Info about a given resource type can be found in the docs for that resource's [provider][].
+
+- [Terraform docs: Config Language — Arguments, Blocks and Expressions](/docs/configuration/index.html#arguments-blocks-and-expressions)
+
+## Attribute
+
+[attribute]: glossary.html#attribute
+[attributes]: glossary.html#attribute
+
+In Terraform's [configuration][] language: a named piece of data that belongs to some kind of object. The value of an attribute can be referenced in [expressions][] using a dot-separated notation, like `aws_instance.example.id`.
+
+Terraform [resources][] and [data sources][] make all of their [arguments][] available as readable attributes, and also typically export additional read-only attributes.
+
+- [Terraform docs: Expressions — Indices and Attributes](/docs/configuration/expressions.html#indices-and-attributes)
+
 ## Backend
 
 [backend]: glossary.html#backend
+[backends]: glossary.html#backend
 
 The part of Terraform's core that determines how Terraform stores [state][] and performs [operations][remote operations] (like [plan][], [apply][], import, etc.). Backends are not plugins (and there are no third-party backends), but Terraform has multiple backends to choose from, which can be configured in a variety of ways.
 
@@ -52,9 +77,30 @@ In a general computer science sense, a backend is any lower-level implementation
 
 An API service for storing and retrieving arbitrary chunks of data using opaque addresses.
 
+## Block
+
+[block]: glossary.html#block
+[blocks]: glossary.html#block
+
+In Terraform's [configuration][] language: a container for other content which usually represents the configuration of some kind of object, like a [resource][]. Blocks have a _block type,_ can have zero or more _labels,_ and have a _body_ that contains any number of [arguments][] and nested blocks. Most of Terraform's features are controlled by top-level blocks in a configuration file.
+
+```hcl
+resource "aws_vpc" "main" {
+  cidr_block = var.base_cidr_block
+}
+
+<BLOCK TYPE> "<BLOCK LABEL>" "<BLOCK LABEL>" {
+  # Block body
+  <IDENTIFIER> = <EXPRESSION> # Argument
+}
+```
+
+- [Terraform docs: Config Language — Arguments, Blocks and Expressions](/docs/configuration/index.html#arguments-blocks-and-expressions)
+
 ## Branch
 
 [branch]: glossary.html#branch
+[branches]: glossary.html#branch
 
 In some [version control systems][vcs]: a semi-independent history of changes to content in a repository. A branch generally shares some history with other branches in the same repository, but eventually diverges to include changes that aren't yet present elsewhere.
 
@@ -74,6 +120,7 @@ We often use "Terraform CLI" to refer to the core open source Terraform binary w
 ## Commit
 
 [commit]: glossary.html#commit
+[commits]: glossary.html#commit
 
 In a [version control system][vcs]: A coherent set of changes saved to a repository's version history.
 
@@ -81,7 +128,10 @@ In Git, commits act like a complete snapshot of the contents of a repo, on a spe
 
 ## (Terraform) Configuration
 
-[(terraform) configuration]: glossary.html#terraform-configuration
+[configuration]: glossary.html#terraform-configuration
+[configurations]: glossary.html#terraform-configuration
+[config]: glossary.html#terraform-configuration
+[configs]: glossary.html#terraform-configuration
 
 Also "config".
 
@@ -93,6 +143,9 @@ Code written in Terraform's configuration language that declaratively describes 
 ## Configuration Version
 
 [configuration version]: glossary.html#configuration-version
+[configuration versions]: glossary.html#configuration-version
+[config version]: glossary.html#configuration-version
+[config versions]: glossary.html#configuration-version
 
 -> Terraform Enterprise
 
@@ -104,9 +157,33 @@ Every stage of a given run uses one specific configuration version.
 
 Config versions can be automatically imported when new commits are merged to a workspace's repo, uploaded via the API, or uploaded by running `terraform plan` or `terraform apply` as a [remote operation][]. Adding a new config version is sometimes called "[ingressing][ingress]."
 
+## Data Source
+
+[data source]: glossary.html#data-source
+[data sources]: glossary.html#data-source
+
+A [resource][]-like object that can be configured in Terraform's [configuration][] language.
+
+Unlike resources, data sources do not create or manage infrastructure. Instead, they return information about some kind of external object in the form of readable [attributes][]. This allows a Terraform configuration to make use of information defined outside of Terraform, or defined by another separate Terraform configuration.
+
+Data sources are implemented by [providers][].
+
+- [Terraform docs: Data Sources](/docs/configuration/data-sources.html)
+
+## Expression
+
+[expression]: glossary.html#expression
+[expressions]: glossary.html#expression
+
+In Terraform's [configuration][] language: a piece of syntax that represents a value, either literally or by referencing and combining other values. Expressions appear as values for [arguments][], or within other expressions.
+
+- [Terraform docs: Expressions](/docs/configuration/expressions.html)
+
 ## Fork
 
 [fork]: glossary.html#fork
+[forks]: glossary.html#fork
+[forked]: glossary.html#fork
 
 Also "forked repository" or "forked repo".
 
@@ -130,7 +207,7 @@ A distributed [version control system][vcs] for tracking changes in source code 
 
 HashiCorp Configuration Language. The structured configuration syntax that serves as the basis for Terraform's [configuration][] language, as well as the configuration layer for several other HashiCorp products.
 
-HCL establishes the syntax Terraform uses for things like [attributes][], [blocks][], literal values, and [expressions][]. But what most people think of as the Terraform language extends beyond just the syntax; the built-in functions, Terraform-specific block types (like `resource` and `variable`), and Terraform-specific named values available in expressions are all implementation details of Terraform itself.
+HCL establishes the syntax Terraform uses for things like [arguments][], [blocks][], literal values, and [expressions][]. But what most people think of as the Terraform language extends beyond just the syntax; the built-in functions, Terraform-specific block types (like `resource` and `variable`), and Terraform-specific named values available in expressions are all implementation details of Terraform itself.
 
 - [GitHub: HCL](https://github.com/hashicorp/hcl)
 - [Terraform docs: Configuration Language](/docs/configuration/index.html)
@@ -138,6 +215,7 @@ HCL establishes the syntax Terraform uses for things like [attributes][], [block
 ## ID
 
 [id]: glossary.html#id
+[ids]: glossary.html#id
 
 -> Terraform Enterprise
 
@@ -152,6 +230,7 @@ You can usually copy an ID from the URL bar when viewing an object in TFE's UI. 
 ## Ingress
 
 [ingress]: glossary.html#ingress
+[ingressing]: glossary.html#ingress
 
 -> Terraform Enterprise
 
@@ -173,6 +252,7 @@ Terraform and Terraform Enterprise often interact with JSON data in order to con
 ## Locking
 
 [locking]: glossary.html#locking
+[lock]: glossary.html#locking
 
 -> Terraform Enterprise
 
@@ -183,12 +263,14 @@ Some other Terraform [backends][] can also lock state during runs.
 ## Log
 
 [log]: glossary.html#log
+[logs]: glossary.html#log
 
 The text-based output of actions taken within a [run][]. For example, the output of running `terraform plan`.
 
 ## Module
 
 [module]: glossary.html#module
+[modules]: glossary.html#module
 
 Also "Terraform module".
 
@@ -213,6 +295,7 @@ Terraform Enterprise uses OAuth to connect your organization to your [VCS provid
 ## OAuth Client
 
 [oauth client]: glossary.html#oauth-client
+[oauth clients]: glossary.html#oauth-client
 
 -> Terraform Enterprise
 
@@ -226,6 +309,7 @@ An OAuth client needs an [OAuth token][] in order to actually access data belong
 ## OAuth Token
 
 [oauth token]: glossary.html#oauth-token
+[oauth tokens]: glossary.html#oauth-token
 
 -> Terraform Enterprise
 
@@ -241,6 +325,7 @@ An OAuth token has a one-to-one relationship with an [OAuth client][], but the c
 ## Organization
 
 [organization]: glossary.html#organization
+[organizations]: glossary.html#organization
 
 -> Terraform Enterprise
 
@@ -250,7 +335,10 @@ TFE's fundamental unit for controlling access and grouping things together; mean
 
 ## Output Values
 
+[output value]: glossary.html#output-values
 [output values]: glossary.html#output-values
+[output]: glossary.html#output-values
+[outputs]: glossary.html#output-values
 
 Also "outputs".
 
@@ -266,6 +354,7 @@ Data exported by a Terraform [module][], which can be displayed to a user and/or
 
 ## Permissions
 
+[permission]: glossary.html#permissions
 [permissions]: glossary.html#permissions
 
 -> Terraform Enterprise
@@ -276,7 +365,7 @@ Specific levels of access allowed within TFE. Can be managed at the [workspace][
 
 ## Plan (verb)
 
-[plan-verb]: glossary.html#plan-verb
+[plan-v]: glossary.html#plan-verb
 
 Also "queue plan".
 
@@ -287,6 +376,7 @@ To start a new [run][], which begins by running a Terraform [plan (noun)][plan].
 ## Plan (noun, 1)
 
 [plan]: glossary.html#plan-noun-1
+[plans]: glossary.html#plan-noun-1
 
 One of the stages of a [run][], in which Terraform compares the managed infrastructure's real state to the [configuration][] and [variables][], determines which changes are necessary to make the real state match the desired state, and presents a human-readable summary to the user. The counterpart of an [apply][].
 
@@ -303,11 +393,12 @@ TFE's workflow always creates a [plan file][], which can be auto-applied or can 
 - [Terraform docs: The `terraform plan` command](/docs/commands/plan.html)
 - [TFE docs: About Runs](/docs/enterprise/run/index.html)
 
-## Plan (noun, 2)
+## Plan File
 
-[plan file]: glossary.html#plan-noun-2
+[plan file]: glossary.html#plan-file
+[plan files]: glossary.html#plan-file
 
-Also "plan file" or "`.tfplan`".
+Also "`.tfplan`", "saved plan", or simply "plan" in contexts where it's clearly referring to an artifact.
 
 A binary artifact optionally produced by the `terraform plan` command, which `terraform apply` can use to carry out the exact changes that were decided at the time of the [plan][].
 
@@ -316,6 +407,7 @@ TFE always uses a saved plan as the input to an [apply][], so that applies never
 ## Policy Check
 
 [policy check]: glossary.html#policy-check
+[policy checks]: glossary.html#policy-check
 
 -> Terraform Enterprise
 
@@ -326,6 +418,9 @@ Part of a [run][]. After gathering the [configuration][], [state][], and [plan f
 ## Policy
 
 [policy]: glossary.html#policy
+[policies]: glossary.html#policy
+[sentinel policy]: glossary.html#policy
+[sentinel policies]: glossary.html#policy
 
 -> Terraform Enterprise
 
@@ -336,6 +431,7 @@ Part of a [run][]. After gathering the [configuration][], [state][], and [plan f
 ## Policy Set
 
 [policy set]: glossary.html#policy-set
+[policy sets]: glossary.html#policy-set
 
 -> Terraform Enterprise
 
@@ -343,9 +439,26 @@ A list of [Sentinel][] [policies][] to enforce globally or on specific workspace
 
 - [TFE docs: Managing Sentinel Policies](/docs/enterprise/sentinel/manage-policies.html)
 
-## Private Terraform Enterprise
+## Private Module Registry
 
-[private terraform enterprise]: glossary.html#private-terraform-enterprise
+[private terraform registry]: glossary.html#private-terraform-registry
+[private module registry]: glossary.html#private-terraform-registry
+[private registry]: glossary.html#private-terraform-registry
+[private module]: glossary.html#private-terraform-registry
+[private modules]: glossary.html#private-terraform-registry
+
+-> Terraform Enterprise
+
+Also "private Terraform registry".
+
+A version of the [Terraform Registry][] that is built-in to TFE, to enable code sharing within an organization. It includes a configuration designer, which lets you combine and configure modules to generate a Terraform [configuration][] that uses them.
+
+- [TFE docs: Private Registry](/docs/enterprise/registry/index.html)
+
+## Private Terraform Enterprise (PTFE)
+
+[private terraform enterprise]: glossary.html#private-terraform-enterprise-ptfe
+[private installs]: glossary.html#private-terraform-enterprise-ptfe
 
 -> Terraform Enterprise
 
@@ -355,19 +468,10 @@ Private Terraform Enterprise is software provided to customers that allows full 
 
 - [TFE docs: Private Terraform Enterprise](/docs/enterprise/private/index.html)
 
-## Private Terraform Registry
-
-[private terraform registry]: glossary.html#private-terraform-registry
-
--> Terraform Enterprise
-
-A version of the [Terraform Registry][] that is built-in to TFE, to enable code sharing within an organization. It includes a configuration designer, which lets you combine and configure modules to generate a Terraform [configuration][] that uses them.
-
-- [TFE docs: Private Registry](/docs/enterprise/registry/index.html)
-
 ## (Terraform) Provider
 
 [provider]: glossary.html#terraform-provider
+[providers]: glossary.html#terraform-provider
 
 A plugin for Terraform that makes a collection of related resources available. A provider plugin is responsible for understanding [API][] interactions with some kind of service and exposing [resources][] based on that API.
 
@@ -387,7 +491,10 @@ A Terraform provider that manages Terraform Enterprise. Allows you to manage TFE
 
 ## Pull Request (PR)
 
-[pull request (pr)]: glossary.html#pull-request-pr
+[pull request]: glossary.html#pull-request-pr
+[pull requests]: glossary.html#pull-request-pr
+[pr]: glossary.html#pull-request-pr
+[prs]: glossary.html#pull-request-pr
 
 A mechanism created by GitHub to review and discuss changes made to a [Git][] [repository][] [branch][] that a user wants to merge into another branch. Other collaborators can request changes, approve, or reject these changes.
 
@@ -396,14 +503,16 @@ Conversationally, people often say "pull request" to refer to this review-before
 ## Queue
 
 [queue]: glossary.html#queue
+[queues]: glossary.html#queue
 
 -> Terraform Enterprise
 
 The list of [runs][] waiting to be processed. TFE uses several queues of runs, including a per-workspace queue (since only one run at a time is allowed in a given [workspace][], to avoid conflicts and state corruption) and a global per-instance queue (since compute resources are finite and TFE only has access to so many VMs).
 
-## Terraform Registry
+## (Terraform) Registry
 
 [terraform registry]: glossary.html#terraform-registry
+[registry]: glossary.html#terraform-registry
 
 A repository of [modules][] written by the Terraform community, which can be used as-is within a Terraform [configuration][] or [forked][] and modified. The registry can help you get started with Terraform more quickly, see examples of how Terraform is written, and find pre-made modules for infrastructure components you require.
 
@@ -411,6 +520,7 @@ A repository of [modules][] written by the Terraform community, which can be use
 
 ## Remote Operations
 
+[remote operation]: glossary.html#remote-operations
 [remote operations]: glossary.html#remote-operations
 
 -> Terraform Enterprise
@@ -434,6 +544,9 @@ See also [backend][]. Older documentation sometimes refers to backends like `s3`
 ## Repository
 
 [repository]: glossary.html#repository
+[repositories]: glossary.html#repository
+[repo]: glossary.html#repository
+[repos]: glossary.html#repository
 
 Also "repo".
 
@@ -441,9 +554,27 @@ A collection of files and a history of the changes to them, managed by a [versio
 
 - [Wikipedia: Repository (version control)](https://en.wikipedia.org/wiki/Repository_(version_control))
 
+## Resource
+
+[resource]: glossary.html#resource
+[resources]: glossary.html#resource
+
+Also "infrastructure resource".
+
+In Terraform's [configuration][] language: A [block][] that describes one or more infrastructure objects. Resources can be things like virtual networks, compute instances, or higher-level components such as DNS records.
+
+In other Terraform-related contexts: An infrastructure object of a type that _could_ be managed by Terraform.
+
+A resource block in a configuration instructs Terraform to _manage_ the described resource — during a run, Terraform will create a matching real infrastructure object if one doesn't already exist, and will modify the existing object if it doesn't match the desired configuration. Terraform uses [state][] to keep track of which real infrastructure objects correspond to resources in a configuration.
+
+Terraform uses cloud provider [APIs][] to create, edit, and destroy resources. Terraform [providers][] are responsible for defining resource types and mapping transitions in a resource's state to a specific series of API calls that will carry out the necessary changes.
+
+- [Terraform docs: Resources](/docs/configuration/resources.html)
+
 ## Root Module
 
 [root module]: glossary.html#root-module
+[root modules]: glossary.html#root-module
 
 The place where Terraform begins evaluating a [configuration][]. The root module consists of all of the configuration files in Terraform's [working directory][].
 
@@ -451,6 +582,7 @@ The root module's [variables][] and [outputs][] are handled directly by Terrafor
 
 ## Root Outputs
 
+[root output]: glossary.html#root-outputs
 [root outputs]: glossary.html#root-outputs
 
 Also "root-level outputs".
@@ -460,6 +592,7 @@ The [output values][] of a configuration's [root module][]. A [configuration][] 
 ## Run
 
 [run]: glossary.html#run
+[runs]: glossary.html#run
 
 Also "Terraform Run".
 
@@ -497,6 +630,7 @@ SAML is an XML-based standard for authentication and authorization. Terraform En
 ## Service Account
 
 [service account]: glossary.html#service-account
+[service accounts]: glossary.html#service-account
 
 -> Terraform Enterprise
 
@@ -517,6 +651,7 @@ A language and runtime for managing policy as code. Allows you to define rules a
 ## Site Admin
 
 [site admin]: glossary.html#site-admin
+[site admins]: glossary.html#site-admin
 
 -> Terraform Enterprise
 
@@ -527,14 +662,16 @@ An administrator of a [Private Terraform Enterprise][] instance, who has access 
 ## Speculative Plan
 
 [speculative plan]: glossary.html#speculative-plan
+[speculative plans]: glossary.html#speculative-plan
 
 -> Terraform Enterprise
 
-A [run][] that is only intended to show possible changes to infrastructure, when using a given [config version][] and set of [variables][]. Speculative plans can never be [applied][apply], and are usually started as a result of [pull requests][] to a [workspace][]'s repo, or by running `terraform plan` on the command line with [remote operations][] configured.
+A [run][] that is only intended to show possible changes to infrastructure, when using a given [config version][] and set of [variables][]. Speculative plans can never be [applied][apply-v], and are usually started as a result of [pull requests][] to a [workspace][]'s repo, or by running `terraform plan` on the command line with [remote operations][] configured.
 
 ## SSH Key
 
 [ssh key]: glossary.html#ssh-key
+[ssh keys]: glossary.html#ssh-key
 
 A type of access credential based on public key cryptography, used to log into servers.
 
@@ -559,6 +696,7 @@ Without state, Terraform has no way to identify the real resources it created du
 ## State Version
 
 [state version]: glossary.html#state-version
+[state versions]: glossary.html#state-version
 
 -> Terraform Enterprise
 
@@ -569,6 +707,7 @@ Unlike TFE, Terraform CLI doesn't track historical state versions, and only reta
 ## Team
 
 [team]: glossary.html#team
+[teams]: glossary.html#team
 
 -> Terraform Enterprise
 
@@ -587,6 +726,7 @@ A tool for building, changing, and versioning infrastructure safely and efficien
 ## TFE
 
 [tfe]: glossary.html#tfe
+[terraform enterprise]: glossary.html#tfe
 
 Terraform Enterprise.
 
@@ -595,6 +735,7 @@ Terraform Enterprise.
 ## Trigger
 
 [trigger]: glossary.html#trigger
+[triggers]: glossary.html#trigger
 
 -> Terraform Enterprise
 
@@ -602,15 +743,18 @@ Something that causes a new [run][] to queue. Runs can be UI/VCS-driven (in whic
 
 - [TFE docs: UI/VCS-based Run Workflow](/docs/enterprise/run/ui.html)
 
-## (API) Tokens
+## (API) Token
 
-[(api) tokens]: glossary.html#api-tokens
+[token]: glossary.html#api-token
+[tokens]: glossary.html#api-token
 
 -> Terraform Enterprise
 
-Revocable secret strings that allow a user to authenticate in order to use TFE's [API][].
+A revocable secret string that authenticates a user, to allow use of TFE's [API][] or the [remote backend][].
 
 Different kinds of tokens grant different permissions. Tokens can be granted by user, [team][], or [organization][].
+
+Many applications other than TFE use token-based authentication, but within TFE's documentation and UI, "token" without any other qualification generally means a TFE API token.
 
 - [TFE docs: User Tokens](/docs/enterprise/users-teams-organizations/users.html#api-tokens)
 - [TFE docs: Team Tokens](/docs/enterprise/users-teams-organizations/teams.html#api-tokens)
@@ -619,6 +763,7 @@ Different kinds of tokens grant different permissions. Tokens can be granted by 
 ## Terraform Version
 
 [terraform version]: glossary.html#tool-version
+[terraform versions]: glossary.html#tool-version
 
 -> Terraform Enterprise
 
@@ -631,6 +776,7 @@ Available Terraform versions are configured at a per-instance level in [Private 
 ## Variables
 
 [variables]: glossary.html#variables
+[input variables]: glossary.html#variables
 
 Also "input variables".
 
@@ -654,6 +800,7 @@ Different VCSes use different models for history; Git models changes as a direct
 ## VCS Provider
 
 [vcs provider]: glossary.html#vcs-provider
+[vcs providers]: glossary.html#vcs-provider
 
 -> Terraform Enterprise
 
@@ -664,6 +811,7 @@ A specific service that provides [VCS][] features, with the goal of enabling tea
 ## Webhook
 
 [webhook]: glossary.html#webhook
+[webhooks]: glossary.html#webhook
 
 A server-to-server HTTP request, in which one system responds to a change in its internal state by asking another system to perform some kind of action.
 
@@ -677,6 +825,7 @@ Terraform Enterprise uses webhooks in multiple ways. Most notably:
 ## Working Directory
 
 [working directory]: glossary.html#working-directory
+[working directories]: glossary.html#working-directory
 
 The directory where `terraform init` runs, creating a `.terraform` subdirectory. All subsequent commands for the same [configuration][] should then be run from the same working directory.
 
@@ -685,6 +834,7 @@ The [root module][] consists of all of the configuration files in the top level 
 ## Workspace
 
 [workspace]: glossary.html#workspace
+[workspaces]: glossary.html#workspace
 
 In Terraform CLI, a workspace is an isolated instance of [state][] data. Using multiple workspaces lets you manage multiple non-overlapping sets of infrastructure from a single [configuration][] in a single [working directory][].
 
